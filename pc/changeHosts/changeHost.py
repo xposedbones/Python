@@ -7,6 +7,7 @@ config = ConfigParser.ConfigParser()
 config.read("config.ini")
 ip = config.get("config", "ip")
 mail = config.get("config", "mail")
+httpdDir = config.get("config","httpd-vhosts_DIR")
 
 
 projectName = raw_input('the URL that you want (without .local, or 192.168.0.111.xip.io): ') 
@@ -27,7 +28,7 @@ print 'Done'
 projectRoot = raw_input('What is the project Root? ')
 print 'Modifying vhost..'
 
-vhostDir = 'C:/wamp/bin/apache/Apache2.2.21/conf/extra/httpd-vhosts.conf'
+vhostDir = httpdDir
 vhostText = '\n\n<VirtualHost *:80>\n   ServerName '+projectName+'.local\n   ServerAlias '+projectName+'.'+ip+'.xip.io\n   DocumentRoot C:/wamp/www/'+projectRoot+'\n   ServerAdmin '+ mail +'\n   ErrorLog "C:/wamp/logs/'+projectRoot+'.log"\n  <Directory "C:/wamp/www/'+projectRoot+'">\n    Options Indexes FollowSymLinks MultiViews\n    AllowOverride all\n    Order Deny,Allow\n    Allow from localhost\n    Allow from ::1\n    Allow from fe80::/10\n    Allow from 127.0.0.1\n  </Directory>\n</VirtualHost>\n'
 
 shutil.copy2(vhostDir, vhostDir + '_bkp')
